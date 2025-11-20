@@ -1,0 +1,146 @@
+﻿@model Projeto_gerencia_treinos_musculacao.ViewModels.FichaDetailsViewModel
+@{
+    ViewData["Title"] = "Detalhes da Ficha";
+}
+
+<div class="d-sm-flex align-items-center justify-content-between mb-4 no-print">
+    <div>
+        <h1 class="h3 mb-0 text-gray-800">@Model.Nome</h1>
+        <p class="mb-0 text-muted">Aluno: <strong>@Model.AlunoNome</strong> | Vigência: @Model.DataInicio.ToShortDateString() a @Model.DataFim.ToShortDateString()</p>
+    </div>
+
+    <div>
+        <a asp-action="Index" class="btn btn-secondary btn-sm"><i class="fas fa-arrow-left fa-sm"></i> <span class="d-none d-md-inline">Voltar</span></a>
+        @if (User.IsInRole("Admin") || User.IsInRole("Personal"))
+        {
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning btn-sm"><i class="fas fa-edit fa-sm"></i> <span class="d-none d-md-inline">Editar</span></a>
+        }
+        <button onclick="window.print()" class="btn btn-info btn-sm"><i class="fas fa-print fa-sm"></i> <span class="d-none d-md-inline">Imprimir</span></button>
+    </div>
+</div>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Informações Gerais</h6>
+    </div>
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-3">Objetivo</dt>
+            <dd class="col-sm-9">@(Model.Objetivo ?? "Não informado")</dd>
+
+            <dt class="col-sm-3">Personal Responsável</dt>
+            <dd class="col-sm-9">@(Model.PersonalNome ?? "Não informado")</dd>
+        </dl>
+    </div>
+</div>
+
+
+<div class="accordion" id="accordionTreinos">
+    @if (Model.Treinos.Any())
+    {
+        var treinoCounter = 0;
+        foreach (var treino in Model.Treinos.OrderBy(t => t.Nome))
+        {
+            <div class="card">
+                <div class="card-header" id="heading-@treino.Id">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link btn-block text-left font-weight-bold" type="button" data-toggle="collapse" data-target="#collapse-@treino.Id" aria-expanded="@(treinoCounter == 0 ? "true" : "false")" aria-controls="collapse-@treino.Id">
+                            @treino.Nome
+                        </button>
+                    </h2>
+                </div>
+
+                <div id="collapse-@treino.Id" class="collapse @(treinoCounter == 0 ? "show" : "")" aria-labelledby="heading-@treino.Id" data-parent="#accordionTreinos">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Ordem</th>
+                                        <th>Exercício</th>
+                                        <th>Séries</th>
+                                        <th>Repetições</th>
+                                        <th>Carga</th>
+                                        <th>Descanso</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in treino.ItensTreino.OrderBy(it => it.Ordem))
+                                    {
+                                        <tr>
+                                            <td>@item.Ordem</td>
+                                            <td>
+                                                <strong>@item.Exercicio.Nome</strong>
+                                                @if (!string.IsNullOrEmpty(item.Exercicio.Execucao))
+                                                {
+                                                    <br />
+                                                    <small class="text-muted">Obs: @item.Exercicio.Execucao</small>
+                                                }
+                                            </td>
+                                            <td>@item.Series</td>
+                                            <td>@item.Repeticoes</td>
+                                            <td>@(item.Carga ?? "N/A")</td>
+                                            <td>@(item.Descanso ?? "N/A")</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            treinoCounter++;
+        }
+    }
+    else
+    {
+        <div class="card">
+            <div class="card-body">
+                Nenhuma divisão de treino foi adicionada a esta ficha.
+            </div>
+        </div>
+    }
+</div>
+
+
+@section Scripts {
+    <style>
+        @@media print {
+            .no-print, .no-print * {
+                display: none !important;
+            }
+
+            .card {
+                border: none;
+                box-shadow: none;
+            }
+
+            .collapse {
+                display: block !important;
+            }
+
+            .btn-link {
+                color: #000 !important;
+                text-decoration: none !important;
+            }
+
+            .card-header {
+                background-color: #fff !important;
+                border-bottom: 2px solid #ccc !important;
+            }
+
+            body {
+                font-size: 11pt;
+                background-color: #fff;
+            }
+
+            h1 {
+                font-size: 18pt;
+            }
+
+            #accordionSidebar {
+                display: none;
+            }
+        }
+    </style>
+}

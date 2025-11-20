@@ -1,0 +1,50 @@
+﻿@model Projeto_gerencia_treinos_musculacao.ViewModels.AlunoDashboardViewModel
+
+@{
+    ViewData["Title"] = "Meu Treino";
+}
+
+<h1 class="h3 mb-4 text-gray-800">Bem-vindo(a), @Model.NomeAluno!</h1>
+
+@if (Model.FichaAtiva != null)
+{
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Seu Treino Ativo</h6>
+        </div>
+        <div class="card-body">
+            <h3 class="card-title">@Model.FichaAtiva.Nome</h3>
+            <hr>
+            <dl class="row">
+                <dt class="col-sm-3">Vigência</dt>
+                <dd class="col-sm-9">@Model.FichaAtiva.DataInicio.ToShortDateString() a @Model.FichaAtiva.DataFim.ToShortDateString()</dd>
+
+                <dt class="col-sm-3">Objetivo</dt>
+                <dd class="col-sm-9">@(Model.FichaAtiva.Objetivo ?? "Não especificado")</dd>
+
+                <dt class="col-sm-3">Personal Responsável</dt>
+                <dd class="col-sm-9">@(Model.FichaAtiva.Personal?.Nome ?? "Não especificado")</dd>
+            </dl>
+
+            <a asp-controller="Fichas" asp-action="Details" asp-route-id="@Model.FichaAtiva.Id" class="btn btn-primary btn-lg mt-3">
+                <i class="fas fa-eye"></i> Acessar meu Treino
+            </a>
+        </div>
+    </div>
+}
+else
+{
+    <div class="card border-left-info shadow py-2">
+        <div class="card-body">
+            <div class="row no-gutters align-items-center">
+                <div class="col-auto mr-3">
+                    <i class="fas fa-info-circle fa-2x text-gray-300"></i>
+                </div>
+                <div class="col">
+                    <h5 class="card-title">Nenhum treino ativo encontrado!</h5>
+                    <p class="card-text mb-0">Você ainda não possui uma ficha de treino ativa. Entre em contato com o seu personal trainer para começar!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+}

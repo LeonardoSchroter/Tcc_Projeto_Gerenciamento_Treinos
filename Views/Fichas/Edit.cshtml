@@ -1,0 +1,172 @@
+﻿@model Projeto_gerencia_treinos_musculacao.ViewModels.FichaEditViewModel
+
+@{
+    ViewData["Title"] = "Editar Ficha de Treino";
+}
+
+<h1 class="h3 mb-2 text-gray-800">Montagem da Ficha: @Model.Nome</h1>
+<p class="mb-4">Edite as informações gerais ou adicione novas divisões de treino para o aluno <strong>@Model.NomeAluno</strong>.</p>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<form asp-action="Edit">
+    <input type="hidden" asp-for="Id" />
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Informações da Ficha</h6>
+        </div>
+        <div class="card-body">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Nome" class="control-label"></label>
+                        <input asp-for="Nome" class="form-control" />
+                        <span asp-validation-for="Nome" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="NomeAluno" class="control-label"></label>
+                        <input asp-for="NomeAluno" class="form-control" readonly />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="DataInicio" class="control-label"></label>
+                        <input asp-for="DataInicio" type="date" class="form-control" />
+                        <span asp-validation-for="DataInicio" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="DataFim" class="control-label"></label>
+                        <input asp-for="DataFim" type="date" class="form-control" />
+                        <span asp-validation-for="DataFim" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label asp-for="Objetivo" class="control-label"></label>
+                        <textarea asp-for="Objetivo" class="form-control" rows="2"></textarea>
+                        <span asp-validation-for="Objetivo" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <input type="submit" value="Salvar Alterações na Ficha" class="btn btn-primary" />
+            <a asp-action="Index" class="btn btn-secondary">Voltar para a Lista</a>
+        </div>
+    </div>
+</form>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+        <h6 class="m-0 font-weight-bold text-primary">Divisões de Treino</h6>
+        <div class="d-flex">
+            <form asp-action="GerarTreinosIA" method="post" id="form-gerar-ia" class="mr-2">
+                <input type="hidden" name="fichaId" value="@Model.Id" />
+                <input type="hidden" name="instrucoes" id="ia-instrucoes-input" />
+                <button type="submit" class="btn btn-info btn-icon-split" title="Substitui os treinos atuais por uma sugestão da IA">
+                    <span class="icon text-white-50"><i class="fas fa-magic"></i></span>
+                    <span class="text d-none d-md-inline">Sugerir com IA</span>
+                </button>
+            </form>
+
+            <a asp-controller="Treinos" asp-action="Create" asp-route-fichaId="@Model.Id" class="btn btn-success btn-icon-split">
+                <span class="icon text-white-50"><i class="fas fa-plus"></i></span>
+                <span class="text d-none d-md-inline">Adicionar Divisão</span>
+            </a>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Nome da Divisão</th>
+                        <th class="text-right">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var treino in Model.Treinos)
+                    {
+                        <tr>
+                            <td>@treino.Nome</td>
+                            <td class="text-right">
+                                <a asp-controller="Treinos" asp-action="Edit" asp-route-id="@treino.Id" class="btn btn-warning btn-sm" title="Editar Exercícios">
+                                    <i class="fas fa-edit"></i>
+                                    <span class="d-none d-md-inline">Editar</span>
+                                </a>
+                                <a asp-controller="Treinos" asp-action="Delete" asp-route-id="@treino.Id" class="btn btn-danger btn-sm" title="Excluir Divisão">
+                                    <i class="fas fa-trash"></i>
+                                    <span class="d-none d-md-inline">Excluir</span>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                    @if (!Model.Treinos.Any())
+                    {
+                        <tr>
+                            <td colspan="2">Nenhuma divisão de treino foi adicionada ainda.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#form-gerar-ia').on('submit', function(e) {
+                e.preventDefault();
+                var form = this;
+
+                Swal.fire({
+                    title: 'Gerar Treinos com IA',
+                    html: `
+                        <p class="text-left">Atenção: As divisões de treino atuais serão substituídas. Esta ação não pode ser desfeita.</p>
+                        <p class="text-left mt-3">Se desejar, adicione instruções para a IA:</p>
+                    `,
+                    input: 'textarea',
+                    inputPlaceholder: 'Ex: Foco em hipertrofia de pernas e glúteos, 3 dias por semana (ABC). Evitar exercícios de alto impacto no joelho.',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Sim, gerar sugestão!',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+
+                        const instrucoes = result.value || "";
+                        $('#ia-instrucoes-input').val(instrucoes);
+
+                        Swal.fire({
+                            title: 'Gerando treino...',
+                            html: 'Aguarde, estamos consultando a IA.<br>Isso pode levar alguns segundos.',
+                            allowOutsideClick: false,
+                            didOpen: () => {
+                                Swal.showLoading();
+                            }
+                        });
+
+                        form.submit();
+                    }
+                });
+            });
+        });
+    </script>
+}

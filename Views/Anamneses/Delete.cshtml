@@ -1,0 +1,55 @@
+﻿@model Projeto_gerencia_treinos_musculacao.Models.Anamnese
+
+@{
+    ViewData["Title"] = "Excluir Anamnese";
+}
+
+<h1 class="h3 mb-4 text-gray-800">Confirmar Exclusão</h1>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-danger">Atenção: Ação Irreversível</h6>
+    </div>
+    <div class="card-body">
+
+        <p>Você tem certeza que deseja excluir permanentemente a anamnese do aluno <strong>@(Model.Usuario?.Nome ?? "N/A")</strong>, registrada em <strong>@Model.DataRegistro?.ToShortDateString()</strong>?</p>
+
+        <div class="alert alert-warning" role="alert">
+            <h4 class="alert-heading"><i class="fas fa-exclamation-triangle"></i> Cuidado!</h4>
+            <p>
+                Ao excluir este registro, todo o histórico de saúde e informações preenchidas nesta data serão permanentemente apagados.
+            </p>
+            <hr>
+            <p class="mb-0">Esta ação não pode ser desfeita.</p>
+        </div>
+
+        <h5 class="mt-4">Resumo da Anamnese a ser Excluída:</h5>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(model => model.Usuario)
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.Usuario.Nome)
+            </dd>
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(model => model.DataRegistro)
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.DataRegistro)
+            </dd>
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(model => model.Objetivos)
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.Objetivos)
+            </dd>
+        </dl>
+
+        <form asp-action="Delete" class="mt-4">
+            <input type="hidden" asp-for="Id" />
+            <input type="submit" value="Sim, Excluir Permanentemente" class="btn btn-danger" />
+            <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</div>

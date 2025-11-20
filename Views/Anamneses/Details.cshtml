@@ -1,0 +1,108 @@
+﻿@model Projeto_gerencia_treinos_musculacao.Models.Anamnese
+
+@{
+    ViewData["Title"] = "Detalhes da Anamnese";
+}
+
+@if (Model.Usuario != null && Model.DataRegistro.HasValue)
+{
+    <h1 class="h3 mb-2 text-gray-800">Anamnese de @Model.Usuario.Nome</h1>
+    <p class="mb-4">Registrada em @Model.DataRegistro.Value.ToString("dd/MM/yyyy").</p>
+}
+
+<div class="mb-4">
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning btn-icon-split">
+        <span class="icon text-white-50"><i class="fas fa-edit"></i></span>
+        <span class="text">Editar</span>
+    </a>
+    <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger btn-icon-split">
+        <span class="icon text-white-50"><i class="fas fa-trash"></i></span>
+        <span class="text">Excluir</span>
+    </a>
+    <a asp-action="Index" class="btn btn-secondary btn-icon-split float-right">
+        <span class="icon text-white-50"><i class="fas fa-arrow-left"></i></span>
+        <span class="text">Voltar para a Lista</span>
+    </a>
+</div>
+
+
+<div class="row">
+    <div class="col-lg-12">
+
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Hábitos e Estilo de Vida</h6>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-3">@Html.DisplayNameFor(model => model.HabitosAlimentares)</dt>
+                    <dd class="col-sm-9">@(Model.HabitosAlimentares ?? "Não informado")</dd>
+
+                    <dt class="col-sm-3">@Html.DisplayNameFor(model => model.ConsumoAlcool)</dt>
+                    <dd class="col-sm-9">@(Model.ConsumoAlcool ? "Sim" : "Não")</dd>
+
+                    <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Tabagismo)</dt>
+                    <dd class="col-sm-9">@(Model.Tabagismo ? "Sim" : "Não")</dd>
+                </dl>
+            </div>
+        </div>
+
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Histórico de Saúde</h6>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Doencas)</dt>
+                    <dd class="col-sm-9">@(Model.Doencas ?? "Não informado")</dd>
+
+                    <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Lesoes)</dt>
+                    <dd class="col-sm-9">@(Model.Lesoes ?? "Não informado")</dd>
+
+                    <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Cirurgias)</dt>
+                    <dd class="col-sm-9">@(Model.Cirurgias ?? "Não informado")</dd>
+
+                    <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Medicamentos)</dt>
+                    <dd class="col-sm-9">@(Model.Medicamentos ?? "Não informado")</dd>
+                </dl>
+            </div>
+        </div>
+
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Atividade Física e Objetivos</h6>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Objetivos)</dt>
+                    <dd class="col-sm-9">@(Model.Objetivos ?? "Não informado")</dd>
+
+                    <dt class="col-sm-3">@Html.DisplayNameFor(model => model.AtividadeFisicaAtual)</dt>
+                    <dd class="col-sm-9">@(Model.AtividadeFisicaAtual ?? "Não informado")</dd>
+
+                    <dt class="col-sm-3">@Html.DisplayNameFor(model => model.IntensidadeAtividadeFisica)</dt>
+                    <dd class="col-sm-9">@(Model.IntensidadeAtividadeFisica ?? "Não informado")</dd>
+                </dl>
+            </div>
+        </div>
+
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Medidas e Observações</h6>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Peso)</dt>
+                    <dd class="col-sm-9">@(Model.Peso.HasValue? Model.Peso.Value.ToString("F1") + " kg" : "Não informado")</dd>
+
+                    <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Altura)</dt>
+                    <dd class="col-sm-9">@(Model.Altura.HasValue? Model.Altura.Value.ToString() + " cm" : "Não informado")</dd>
+
+                    <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Observacoes)</dt>
+                    <dd class="col-sm-9">@(Model.Observacoes ?? "Não informado")</dd>
+                </dl>
+            </div>
+        </div>
+
+    </div>
+</div>

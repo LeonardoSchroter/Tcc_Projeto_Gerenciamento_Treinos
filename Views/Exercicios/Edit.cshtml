@@ -1,0 +1,57 @@
+﻿@using Projeto_gerencia_treinos_musculacao.ViewModels.Exercicio
+@model ExercicioEditViewModel
+
+@{
+    ViewData["Title"] = "Editar Exercício"; // Título mais amigável
+}
+
+<h1>Editar Exercício</h1>
+
+<h4>Exercício</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" /> 
+
+            <div class="form-group">
+                <label asp-for="Nome" class="control-label"></label>
+                <input asp-for="Nome" class="form-control" />
+                <span asp-validation-for="Nome" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Execucao" class="control-label"></label>
+                <textarea asp-for="Execucao" class="form-control"></textarea> 
+                <span asp-validation-for="Execucao" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="GrupoMuscular" class="control-label"></label>
+                <select asp-for="GrupoMuscular" class="form-control" asp-items="Html.GetEnumSelectList<Projeto_gerencia_treinos_musculacao.Models.Enum.GrupoMuscular>()"></select>
+                <span asp-validation-for="GrupoMuscular" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Equipamento" class="control-label"></label>
+                <input asp-for="Equipamento" class="form-control" /> 
+                <span asp-validation-for="Equipamento" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mt-3">
+                <input type="submit" value="Salvar" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="mt-2">
+    <a asp-action="Index">Voltar para a Lista</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

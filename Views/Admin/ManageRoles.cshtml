@@ -1,0 +1,73 @@
+﻿@using Projeto_gerencia_treinos_musculacao.ViewModels.User
+@model ManageUserRolesViewModel
+
+@{
+    ViewData["Title"] = "Gerenciar Perfis";
+}
+
+<h1 class="h3 mb-4 text-gray-800">@ViewData["Title"]</h1>
+
+<div class="card shadow mb-4">
+    <div class="card-header">
+        Gerenciando perfis para o usuário: <strong>@Model.UserName</strong>
+    </div>
+    <div class="card-body">
+        <form method="post">
+            <input type="hidden" asp-for="UserId" />
+            <input type="hidden" asp-for="UserName" />
+
+            <h5>Perfis de Acesso</h5>
+            @for (int i = 0; i < Model.Roles.Count; i++)
+            {
+                <div class="form-check m-1">
+                    <input type="hidden" asp-for="Roles[i].RoleName" />
+                    <input type="checkbox" asp-for="Roles[i].IsSelected" class="form-check-input" />
+                    <label class="form-check-label" asp-for="Roles[i].IsSelected">
+                        @Model.Roles[i].RoleName
+                    </label>
+                </div>
+            }
+
+            <hr />
+
+            <div id="personal-selector-div" style="display: none;">
+                <h5>Vincular a um Personal Trainer</h5>
+                <div class="form-group">
+                    <label asp-for="PersonalId" class="control-label">Personal Responsável</label>
+                    <select asp-for="PersonalId" class="form-control" asp-items="Model.PersonalsDisponiveis">
+                        <option value="">-- Nenhum / Desvincular --</option>
+                    </select>
+                </div>
+            </div>
+
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            <div class="mt-3">
+                <input type="submit" value="Salvar" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            const alunoCheckbox = $("input[type='hidden'][value='Aluno']").siblings("input[type='checkbox']");
+
+            function togglePersonalSelector() {
+                if (alunoCheckbox.is(':checked')) {
+                    $('#personal-selector-div').slideDown(); 
+                } else {
+                    $('#personal-selector-div').slideUp(); 
+                }
+            }
+
+            togglePersonalSelector();
+
+            alunoCheckbox.on('change', function () {
+                togglePersonalSelector();
+            });
+        });
+    </script>
+}

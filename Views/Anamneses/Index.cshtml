@@ -1,0 +1,112 @@
+﻿@model IEnumerable<Projeto_gerencia_treinos_musculacao.Models.Anamnese>
+
+@{
+    ViewData["Title"] = "Lista de Anamneses";
+}
+
+<h1 class="h3 mb-2 text-gray-800">Anamneses</h1>
+<p class="mb-4">Aqui você pode gerenciar todas as anamneses cadastradas para os alunos.</p>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary btn-icon-split">
+        <span class="icon text-white-50">
+            <i class="fas fa-plus"></i>
+        </span>
+        <span class="text">Criar Nova Anamnese</span>
+    </a>
+</p>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Anamneses Cadastradas</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered dt-responsive" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Usuario)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.DataRegistro)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Objetivos)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Peso)
+                        </th>
+                        <th>
+                            Ações
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @* Garante que o nome do usuário será exibido, e não o ID *@
+                                @(item.Usuario?.Nome ?? "Usuário não informado")
+                            </td>
+                            <td>
+                                @* Formata a data para o padrão brasileiro e lida com valores nulos *@
+                                @(item.DataRegistro.HasValue? item.DataRegistro.Value.ToString("dd/MM/yyyy") : "N/A")
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Objetivos)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Peso) kg
+                            </td>
+                            <td>
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-circle btn-sm" title="Detalhes">
+                                    <i class="fas fa-info-circle"></i>
+                                </a>
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-circle btn-sm" title="Editar">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-circle btn-sm" title="Excluir">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#dataTable').DataTable({
+                // Adiciona a tradução para Português-Brasil
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json"
+                },
+                
+                responsive: true,
+
+                columnDefs: [
+                    {
+                        targets: 0, 
+                        responsivePriority: 1 
+                    },
+                    {
+                        targets: 4, 
+                        responsivePriority: 2, 
+                        orderable: false      
+                    },
+                    {
+                        targets: 1, 
+                        responsivePriority: 3 
+                    }
+                 
+                ]
+            });
+        });
+    </script>
+}

@@ -1,0 +1,112 @@
+﻿@model IEnumerable<Projeto_gerencia_treinos_musculacao.Models.Exercicio>
+
+@{
+    ViewData["Title"] = "Lista de Exercícios";
+}
+
+<h1 class="h3 mb-2 text-gray-800">Exercícios</h1>
+<p class="mb-4">Aqui você pode gerenciar todos os exercícios cadastrados no sistema.</p>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary btn-icon-split">
+        <span class="icon text-white-50">
+            <i class="fas fa-plus"></i>
+        </span>
+        <span class="text">Criar Novo Exercício</span>
+    </a>
+</p>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Exercícios Cadastrados</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered dt-responsive" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Nome)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Execucao)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.GrupoMuscular)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Equipamento)
+                        </th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Nome)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Execucao)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.GrupoMuscular)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Equipamento)
+                            </td>
+                            <td>
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-circle btn-sm" title="Detalhes">
+                                    <i class="fas fa-info-circle"></i>
+                                </a>
+                                @if (item.UsuarioCriador != null)
+                                {
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-circle btn-sm" title="Editar">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-circle btn-sm" title="Excluir">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#dataTable').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json"
+                },
+
+                responsive: true,
+                columnDefs: [
+                    {
+                        targets: 0,
+                        responsivePriority: 1
+                    },
+                    {
+                        targets: 4,
+                        responsivePriority: 2,
+                        orderable: false
+                    },
+                    {
+                        targets: 2,
+                        responsivePriority: 3
+                    },
+                    {
+                        targets: 3,
+                        responsivePriority: 4
+                    }
+                ]
+            });
+        });
+    </script>
+}

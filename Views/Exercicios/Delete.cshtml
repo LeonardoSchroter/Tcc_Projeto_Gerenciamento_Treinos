@@ -1,0 +1,55 @@
+﻿@model Projeto_gerencia_treinos_musculacao.Models.Exercicio
+
+@{
+    ViewData["Title"] = "Excluir Exercício";
+}
+
+<h1 class="h3 mb-4 text-gray-800">Confirmar Exclusão</h1>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-danger">Confirmar Exclusão de Exercício</h6>
+    </div>
+    <div class="card-body">
+
+        <p>Você tem certeza que deseja excluir permanentemente o exercício <strong>"@Model.Nome"</strong>?</p>
+
+        <div class="alert alert-warning" role="alert">
+            <h4 class="alert-heading"><i class="fas fa-exclamation-triangle"></i> Atenção!</h4>
+            <p>
+                Tem certeza que deseja excluir este exercício?
+            </p>
+        </div>
+
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+        <h5 class="mt-4">Detalhes do Exercício a ser Excluído:</h5>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(model => model.Nome)
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.Nome)
+            </dd>
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(model => model.GrupoMuscular)
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.GrupoMuscular)
+            </dd>
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(model => model.Equipamento)
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.Equipamento)
+            </dd>
+        </dl>
+
+        <form asp-action="Delete" class="mt-4">
+            <input type="hidden" asp-for="Id" />
+            <input type="submit" value="Sim, Excluir Exercício" class="btn btn-danger" />
+            <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</div>

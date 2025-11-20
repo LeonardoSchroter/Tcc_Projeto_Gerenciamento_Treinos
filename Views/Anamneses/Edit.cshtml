@@ -1,0 +1,206 @@
+﻿@model Projeto_gerencia_treinos_musculacao.ViewModels.AnamneseViewModel
+
+@{
+    ViewData["Title"] = "Editar Anamnese";
+}
+
+<h1 class="h3 mb-4 text-gray-800">@ViewData["Title"]</h1>
+
+<form asp-action="Edit">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <input type="hidden" asp-for="Id" />
+
+    <div class="row">
+        <div class="col-lg-12">
+
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Informações Gerais do Aluno</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="UsuarioId" class="control-label"></label>
+
+                                <input type="hidden" asp-for="UsuarioId" />
+
+                                <select class="form-control" asp-items="@Model.Usuarios" disabled></select>
+
+                                <span asp-validation-for="UsuarioId" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="DataRegistro" class="control-label"></label>
+                                <input asp-for="DataRegistro" type="date" class="form-control" />
+                                <span asp-validation-for="DataRegistro" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Hábitos e Estilo de Vida</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label asp-for="HabitosAlimentares" class="control-label"></label>
+                                <textarea asp-for="HabitosAlimentares" class="form-control" rows="3"></textarea>
+                                <span asp-validation-for="HabitosAlimentares" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="ConsumoAlcool" class="control-label"></label>
+                                <div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" asp-for="ConsumoAlcool" value="true" id="alcoolSim">
+                                        <label class="form-check-label" for="alcoolSim">Sim</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" asp-for="ConsumoAlcool" value="false" id="alcoolNao">
+                                        <label class="form-check-label" for="alcoolNao">Não</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Tabagismo" class="control-label"></label>
+                                <div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" asp-for="Tabagismo" value="true" id="tabagismoSim">
+                                        <label class="form-check-label" for="tabagismoSim">Sim</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" asp-for="Tabagismo" value="false" id="tabagismoNao">
+                                        <label class="form-check-label" for="tabagismoNao">Não</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Histórico de Saúde</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Doencas" class="control-label"></label>
+                                <textarea asp-for="Doencas" class="form-control" rows="3"></textarea>
+                                <span asp-validation-for="Doencas" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Lesoes" class="control-label"></label>
+                                <textarea asp-for="Lesoes" class="form-control" rows="3"></textarea>
+                                <span asp-validation-for="Lesoes" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Cirurgias" class="control-label"></label>
+                                <textarea asp-for="Cirurgias" class="form-control" rows="3"></textarea>
+                                <span asp-validation-for="Cirurgias" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Medicamentos" class="control-label"></label>
+                                <textarea asp-for="Medicamentos" class="form-control" rows="3"></textarea>
+                                <span asp-validation-for="Medicamentos" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Atividade Física e Objetivos</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label asp-for="Objetivos" class="control-label"></label>
+                                <textarea asp-for="Objetivos" class="form-control" rows="3"></textarea>
+                                <span asp-validation-for="Objetivos" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="AtividadeFisicaAtual" class="control-label"></label>
+                                <input asp-for="AtividadeFisicaAtual" class="form-control" />
+                                <span asp-validation-for="AtividadeFisicaAtual" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="IntensidadeAtividadeFisica" class="control-label"></label>
+                                <select asp-for="IntensidadeAtividadeFisica"
+                                        class="form-control"
+                                        asp-items="Html.GetEnumSelectList<Projeto_gerencia_treinos_musculacao.Models.Enum.NivelIntensidade>()">
+                                </select>
+                                <span asp-validation-for="IntensidadeAtividadeFisica" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Medidas e Observações</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Peso" class="control-label"></label>
+                                <input asp-for="Peso" type="number" step="0.1" class="form-control" />
+                                <span asp-validation-for="Peso" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Altura" class="control-label"></label>
+                                <input asp-for="Altura" type="number" class="form-control" />
+                                <span asp-validation-for="Altura" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label asp-for="Observacoes" class="control-label"></label>
+                                <textarea asp-for="Observacoes" class="form-control" rows="4"></textarea>
+                                <span asp-validation-for="Observacoes" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Salvar Alterações" class="btn btn-primary" />
+        <a asp-action="Index" class="btn btn-secondary">Voltar para a Lista</a>
+    </div>
+
+</form>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,84 @@
+﻿@{
+    ViewData["Title"] = "Sobre o Projeto e Privacidade";
+}
+
+<div class="container-fluid">
+
+    <h1 class="h3 mb-4 text-gray-800">@ViewData["Title"]</h1>
+
+    <div class="row">
+
+        <div class="col-lg-6">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Sobre o Sistema</h6>
+                </div>
+                <div class="card-body">
+                    <p>
+                        Este sistema foi desenvolvido como parte de um Trabalho de Conclusão de Curso (TCC).
+                        O objetivo é oferecer uma ferramenta web para <strong>Personal Trainers</strong> gerenciarem
+                        seus alunos, anamneses e criarem fichas de treino de forma ágil e inteligente.
+                    </p>
+                    <p>
+                        O grande diferencial deste projeto é a integração com a <strong>Inteligência Artificial (Google Gemini)</strong>,
+                        que auxilia o profissional sugerindo treinos personalizados com base no perfil do aluno.
+                    </p>
+                    <hr>
+                    <p class="mb-0">
+                        <strong>Tecnologias utilizadas:</strong> ASP.NET Core MVC, Entity Framework Core,
+                        SQL Server, Identity, Bootstrap 5 e API do Google Gemini.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card shadow mb-4 border-left-dark">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-dark">Código Fonte (Open Source)</h6>
+                </div>
+                <div class="card-body text-center">
+                    <p>Este projeto é de código aberto. Você pode visualizar a estrutura completa, a arquitetura e contribuir através do GitHub.</p>
+
+                    <a href="https://github.com/LeonardoSchroter/Projeto_gerencia_treinos_musculacao" target="_blank" class="btn btn-dark btn-icon-split btn-lg">
+                        <span class="icon text-white-50">
+                            <i class="fab fa-github"></i>
+                        </span>
+                        <span class="text">Acessar Repositório no GitHub</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Política de Privacidade</h6>
+                </div>
+                <div class="card-body">
+                    <p>Por se tratar de um projeto acadêmico e de demonstração, a política de dados segue as seguintes diretrizes:</p>
+
+                    <ul>
+                        <li class="mb-2">
+                            <strong>Coleta de Dados:</strong> O sistema coleta dados como nome, e-mail, peso, altura e idade apenas para fins de funcionamento da lógica de negócio (cálculo de treino e login).
+                        </li>
+                        <li class="mb-2">
+                            <strong>Uso de Cookies:</strong> Utilizamos cookies essenciais apenas para manter a sessão do usuário logado (Autenticação). Não há cookies de rastreamento ou publicidade.
+                        </li>
+                        <li class="mb-2">
+                            <strong>Segurança:</strong> As senhas são armazenadas utilizando hash criptográfico seguro (via ASP.NET Identity).
+                        </li>
+                        <li class="mb-2">
+                            <strong>Inteligência Artificial:</strong> Ao utilizar a funcionalidade de "Sugerir Treino", os dados anônimos da anamnese (sem identificar o aluno pessoalmente) são enviados para a API do Google Gemini apenas para o processamento da resposta.
+                        </li>
+                    </ul>
+
+                    <div class="alert alert-warning mt-4" role="alert">
+                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                        <strong>Aviso:</strong> Este é um ambiente de demonstração. Evite cadastrar senhas reais que você utiliza em outros serviços críticos.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

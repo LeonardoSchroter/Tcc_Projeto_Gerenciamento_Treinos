@@ -1,0 +1,161 @@
+﻿@model Projeto_gerencia_treinos_musculacao.ViewModels.TreinoEditViewModel
+
+@{
+    ViewData["Title"] = "Criar Divisão de Treino";
+}
+
+<h1 class="h3 mb-4 text-gray-800">@ViewData["Title"]</h1>
+
+<form asp-action="Create">
+    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+    <input type="hidden" asp-for="FichaId" />
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Dados da Divisão</h6>
+        </div>
+        <div class="card-body">
+            <div class="form-group col-md-8">
+                <label asp-for="Nome" class="control-label"></label>
+                <input asp-for="Nome" class="form-control" />
+                <span asp-validation-for="Nome" class="text-danger"></span>
+            </div>
+            <hr />
+
+            <h5 class="mt-4">Exercícios</h5>
+            <table class="table table-sm">
+                <thead>
+                    <tr>
+                        <th>Ordem</th>
+                        <th>Exercício</th>
+                        <th>Séries</th>
+                        <th>Repetições</th>
+                        <th>Carga</th>
+                        <th>Descanso</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="itens-treino-body">
+                </tbody>
+            </table>
+            <button type="button" class="btn btn-sm btn-success btn-abrir-modal-exercicio">
+                <i class="fas fa-plus"></i> Adicionar Exercício
+            </button>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Salvar Divisão" class="btn btn-primary" />
+        <a asp-controller="Fichas" asp-action="Edit" asp-route-id="@Model.FichaId" class="btn btn-secondary">Cancelar</a>
+    </div>
+</form>
+
+<div class="modal fade" id="modal-exercicios" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Selecione um Exercício</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-striped" id="tabela-exercicios-modal" width="100%">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Grupo Muscular</th>
+                            <th>Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var exercicio in Model.ExerciciosDisponiveis)
+                        {
+                            <tr>
+                                <td>@exercicio.Nome</td>
+                                <td>@exercicio.GrupoMuscular</td>
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-success btn-selecionar-exercicio"
+                                            data-exercicio-id="@exercicio.Id"
+                                            data-exercicio-nome="@exercicio.Nome">
+                                        Selecionar
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        $(document).ready(function () {
+            // Inicializa o DataTable no modal
+            $('#tabela-exercicios-modal').DataTable({
+                "language": { "url": "//cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json" }
+            });
+
+            // Abrir o modal para adicionar um exercício
+            $('.btn-abrir-modal-exercicio').on('click', function () {
+                $('#modal-exercicios').modal('show');
+            });
+
+            // Ação do botão "Selecionar" dentro do modal
+            $('#tabela-exercicios-modal').on('click', '.btn-selecionar-exercicio', function () {
+                const id = $(this).data('exercicio-id');
+                const nome = $(this).data('exercicio-nome');
+
+                const itemHtml = `
+                    <tr>
+                        <input type="hidden" class="exercicioIdInput" value="${id}" />
+                        <input type="hidden" class="ordemInput" />
+                        <td class="ordem-visual"></td>
+                        <td>${nome}</td>
+                        <td><input type="text" class="form-control form-control-sm seriesInput" required /></td>
+                        <td><input type="text" class="form-control form-control-sm repeticoesInput" required /></td>
+                        <td><input type="text" class="form-control form-control-sm cargaInput" /></td>
+                        <td><input type="text" class="form-control form-control-sm descansoInput" /></td>
+                        <td><button type="button" class="btn btn-sm btn-danger btn-remover-item">X</button></td>
+                    </tr>`;
+                $('#itens-treino-body').append(itemHtml);
+
+                $('#modal-exercicios').modal('hide');
+                atualizarIndices();
+            });
+
+            // Remover uma linha de exercício
+            $('#itens-treino-body').on('click', '.btn-remover-item', function () {
+                $(this).closest('tr').remove();
+                atualizarIndices();
+            });
+
+            // Essencial para o Model Binding do ASP.NET Core funcionar
+            function atualizarIndices() {
+                $('#itens-treino-body tr').each(function (iIndex, itemRow) {
+                    // Atualiza a ordem visual e o valor do input de ordem
+                    $(itemRow).find('.ordem-visual').text(iIndex + 1);
+                    $(itemRow).find('.ordemInput').val(iIndex + 1);
+
+                    // Atualiza os 'name' dos inputs para o binding correto
+                    const baseName = `ItensTreino[${iIndex}]`;
+                    $(itemRow).find('.exercicioIdInput').attr('name', `${baseName}.ExercicioId`);
+                    $(itemRow).find('.ordemInput').attr('name', `${baseName}.Ordem`);
+                    $(itemRow).find('.seriesInput').attr('name', `${baseName}.Series`);
+                    $(itemRow).find('.repeticoesInput').attr('name', `${baseName}.Repeticoes`);
+                    $(itemRow).find('.cargaInput').attr('name', `${baseName}.Carga`);
+                    $(itemRow).find('.descansoInput').attr('name', `${baseName}.Descanso`);
+                });
+            }
+        });
+    </script>
+}
