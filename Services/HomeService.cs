@@ -49,8 +49,10 @@ namespace Projeto_gerencia_treinos_musculacao.Services
 
         public async Task<AlunoDashboardViewModel> GetAlunoDashboardAsync(ClaimsPrincipal user)
         {
+            var aluno = await _userManager.GetUserAsync(user);
+
             var alunoId = _userManager.GetUserId(user);
-            var alunoNome = _userManager.GetUserName(user);
+            var alunoNome = aluno.Nome;
             var hoje = DateTime.Today;
 
             var fichaAtiva = await _context.Fichas

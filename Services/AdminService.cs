@@ -28,6 +28,7 @@ namespace Projeto_gerencia_treinos_musculacao.Services
                 userViewModels.Add(new UserViewModel
                 {
                     Id = user.Id,
+                    Nome = user.Nome,
                     UserName = user.UserName,
                     Email = user.Email,
                     Roles = await _userManager.GetRolesAsync(user)

@@ -39,7 +39,7 @@ namespace Projeto_gerencia_treinos_musculacao.Services
             var user = new Usuario
             {
                 Nome = model.Name,
-                UserName = model.Name,
+                UserName = model.Email,
                 PhoneNumber = model.Telefone,
                 NormalizedUserName = model.Email.ToUpper(),
                 Email = model.Email,

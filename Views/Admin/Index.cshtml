@@ -17,6 +17,7 @@
                 <thead>
                     <tr>
                         <th>Usuário</th>
+                        <th>Nome</th>
                         <th>Email</th>
                         <th>Perfis (Roles)</th>
                         <th>Ações</th>
@@ -27,6 +28,7 @@
                     {
                         <tr>
                             <td>@user.UserName</td>
+                            <td>@user.Nome</td>
                             <td>@user.Email</td>
                             <td>@string.Join(", ", user.Roles)</td>
                             <td>
