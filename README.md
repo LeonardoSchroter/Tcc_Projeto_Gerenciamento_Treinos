@@ -21,7 +21,7 @@ Uma visão geral do fluxo de trabalho, com indicadores Kanban para alunos sem fi
 )
 
 ### 2. Montagem de Ficha com IA
-A interface onde a mágica acontece. O Personal pode editar manualmente ou solicitar sugestões à IA.
+O Personal pode editar manualmente ou solicitar sugestões à IA.
 ![Montagem de Treino com IA](Assets/tela_ia.png)
 
 ### 3. Visão do Aluno (Mobile)
@@ -34,8 +34,6 @@ Interface responsiva e limpa para o aluno acompanhar seu treino na academia.
 - **Sugestão de Treino via IA:** Integração com API do Google Gemini para criar treinos baseados no perfil do aluno.
 - **Controle de Acesso (RBAC):** Perfis distintos para Admin, Personal e Aluno via ASP.NET Identity.
 - **Design Responsivo:** Tabelas inteligentes (DataTables) que se adaptam a celulares e desktops.
-- **Validação de Regras de Negócio:** Verificação de exercícios existentes para evitar alucinações da IA.
-
 ## 🛠️ Tecnologias e Arquitetura
 
 O projeto foi desenvolvido seguindo utilizando a arquitetura **MVC** com separação de responsabilidades utilizando services.
