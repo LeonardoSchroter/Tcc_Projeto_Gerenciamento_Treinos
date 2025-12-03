@@ -38,7 +38,7 @@ namespace Projeto_gerencia_treinos_musculacao.Controllers
         [Authorize(Roles = "Personal,Admin")]
         public async Task<IActionResult> Create(string alunoId)
         {
-            var viewModel = await _fichasService.BuildCreateViewModelAsync(alunoId);
+            var viewModel = await _fichasService.BuildCreateViewModelAsync(alunoId, User);
             return View(viewModel);
         }
 

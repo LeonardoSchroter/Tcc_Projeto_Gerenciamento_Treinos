@@ -9,7 +9,7 @@ namespace Projeto_gerencia_treinos_musculacao.Interfaces
     {
         Task<List<Ficha>> GetFichasAsync(ClaimsPrincipal user);
         Task<FichaDetailsViewModel> GetFichaDetailsAsync(string id);
-        Task<FichaCreateViewModel> BuildCreateViewModelAsync(string alunoId);
+        Task<FichaCreateViewModel> BuildCreateViewModelAsync(string alunoId, ClaimsPrincipal user);
         Task<string> CreateFichaAsync(FichaCreateViewModel viewModel, ClaimsPrincipal user);
         Task<FichaEditViewModel> BuildEditViewModelAsync(string id);
         Task<bool> UpdateFichaAsync(string id, FichaEditViewModel viewModel);

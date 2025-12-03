@@ -79,11 +79,18 @@ namespace Projeto_gerencia_treinos_musculacao.Services
             };
         }
 
-        public async Task<FichaCreateViewModel> BuildCreateViewModelAsync(string alunoId)
+        public async Task<FichaCreateViewModel> BuildCreateViewModelAsync(string alunoId,ClaimsPrincipal user)
         {
+            if (alunoId != null)
+            {
+                return new FichaCreateViewModel
+                {
+                    Alunos = new SelectList(await _context.Users.Where(u => u.Role == "Aluno" && u.PersonalId == _userManager.GetUserId(user)).ToListAsync(), "Id", "Nome", alunoId)
+                };
+            }
             return new FichaCreateViewModel
             {
-                Alunos = new SelectList(await _context.Users.Where(u => u.Role == "Aluno").ToListAsync(), "Id", "Nome", alunoId)
+                Alunos = new SelectList(await _context.Users.Where(u => u.Role == "Aluno" && u.PersonalId == _userManager.GetUserId(user)).ToListAsync(), "Id", "Nome")
             };
         }
 
